@@ -12,42 +12,7 @@
 
 **Количество классов:** 42 персонажа
 
----
 
-## 📁 Структура репозитория
-simpson_classification/
-├── README.md # Этот файл
-├── pyproject.toml # Зависимости проекта
-├── uv.lock # Lock-файл зависимостей
-├── .gitignore # Игнорируемые файлы
-├
-│
-├── configs/
-│ └── train_config.yaml # Конфигурация обучения
-│
-├── src/ # Исходный код (библиотека)
-│ ├── init.py
-│ ├── dataset.py # Загрузка данных и аугментации
-│ ├── model.py # Создание модели
-│ ├── train.py # Логика обучения (epoch)
-│ ├── validate.py # Логика валидации
-│ └── utils.py # Утилиты (seed, etc.)
-│
-├── scripts/ # Точки входа (CLI)
-│ ├── download_data.py # Скачивание датасета
-│ ├── check_data.py # Проверка структуры данных
-│ ├── train.py # Запуск обучения
-│ ├── val.py # Запуск валидации
-│ ├── test_model.py # Тест модели
-│ └── test_dataloader.py # Тест DataLoader
-│
-├── artifacts/ # Артефакты (не в git)
-│ ├── best_model.pth # Веса лучшей модели
-│ ├── training_history.json # История обучения
-│ └── config_used.json # Конфиг запуска
-
-
----
 
 ## 🚀 Быстрый старт
 
@@ -113,18 +78,7 @@ python scripts/train.py
 5 Сохраняется лучшая модель по Validation Accuracy
 
 
-📈 Просмотр метрик
-1. История обучения
-Файл: artifacts/training_history.json
 
-Метрика         Описание
-train_loss      Loss на обучении по эпохам
-
-train_acc       Accuracy на обучении по эпохам
-
-val_loss        Loss на валидации по эпохам
-
-val_acc         Accuracy на валидации по эпохам
 
 2. Построение графиков
 ```bash
@@ -138,3 +92,4 @@ python scripts/plot_metrics.py
 {
   "val_acc": [35.0, 45.0, 52.0, ..., 72.5]
 }
+
