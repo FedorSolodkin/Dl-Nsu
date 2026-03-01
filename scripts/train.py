@@ -4,6 +4,7 @@ import torch
 import json
 from pathlib import Path
 from src.utils import set_seed
+from plot_metrics import write_metrics
 from src.model import create_model, get_optimizer, get_criterion
 from src.dataset import get_dataloaders
 from src.train import train_one_epoch
@@ -89,6 +90,9 @@ def main():
     print(f"\nОбучение завершено!")
     print(f"Лучшая валидационная точность: {best_val_acc:.2f}%")
     print(f"Модель сохранена в: {artifacts_dir / 'best_model.pth'}")
+    
+    write_metrics()
+    print(f"\nВсе метрики записаны в папку artifacts")
 
 if __name__ == "__main__":
     main()
