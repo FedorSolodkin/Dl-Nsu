@@ -81,11 +81,7 @@ python scripts/train.py
 
 
 2. Построение графиков
-```bash
-python scripts/plot_metrics.py
-```
-
-Выход: artifacts/metrics.png — графики Loss и Accuracy по эпохам.
+Графики хранятся в папке artifacts, artifacts/metrics.png — графики Loss и Accuracy по эпохам.
 
 3. Финальный скор
 Откройте artifacts/training_history.json и посмотрите последнее значение val_acc:

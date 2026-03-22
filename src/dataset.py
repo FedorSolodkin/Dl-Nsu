@@ -26,7 +26,7 @@ class SimpsonsDataset(Dataset):
     
     def __getitem__ (self, idx:int ) -> Tuple[torch.Tensor,int]:
         img_path, label = self.samples[idx]
-        image = Image.open(img_path).convert("RGB")
+        image = Image.open(img_path).convert("HSV")
         
         if self.transform:
             image = self.transform(image)
@@ -60,7 +60,76 @@ def get_transforms(config: Dict[str, Any], is_train: bool = True):
             normalize,
         ])
     
+class KaggleTestDataset(Dataset):
     
+    def __init__(self, data_dir: str,test_dir: str, transform=None, class_to_idx: Dict[str, int] = None):
+        self.data_dir = Path(data_dir) /"simpsons_dataset"
+        self.test_dir = Path(test_dir) 
+        self.transform = transform
+        
+       
+        train_data_dir = Path(self.data_dir) 
+        self.classes = sorted([
+            d.name for d in train_data_dir.iterdir() 
+            if d.is_dir()
+        ])
+        
+        self.class_to_idx = {}
+        for idx, cls in enumerate(self.classes):
+            self.class_to_idx[cls] = idx 
+        print(self.class_to_idx)
+        
+        self.samples = []
+        for img_path in self.test_dir.glob("*.jpg"):
+            character_name = img_path.stem.rsplit('_', 1)[0]  
+            
+            if character_name in self.class_to_idx:
+                self.samples.append((img_path, self.class_to_idx[character_name]))
+            else:
+                continue
+               # print(f"⚠️ Неизвестный класс: {character_name} в файле {img_path.name}")
+    
+    def __len__(self) -> int:
+        return len(self.samples)
+    
+    def __getitem__(self, idx: int) -> Tuple[torch.Tensor, int]:
+        img_path, label = self.samples[idx]
+        image = Image.open(img_path).convert("HSV")
+        
+        if self.transform:
+            image = self.transform(image)
+        
+        return image, label
+    
+    @property
+    def num_classes(self) -> int:
+        return len(self.classes)
+    
+def get_transforms(config: Dict[str, Any], is_train: bool = True):
+    img_size = config["data"]["img_size"]
+    
+    normalize = transforms.Normalize(
+            mean=[0.5, 0.5, 0.5], 
+            std=[0.5, 0.5, 0.5]
+    )
+    
+    if is_train:
+        return transforms.Compose([
+            transforms.Resize((img_size,img_size)),
+            transforms.RandomHorizontalFlip(p=0.5),
+            transforms.RandomRotation(10),
+            transforms.ColorJitter(brightness=0.2, contrast=0.2),
+            transforms.ToTensor(),
+            normalize,
+        ])
+    else:
+        return transforms.Compose([
+            transforms.Resize((img_size,img_size)),
+            transforms.ToTensor(),
+            normalize,
+        ])
+
+
 def get_dataloaders(config:Dict[str,Any])-> Tuple[DataLoader,DataLoader,int]:
     
     train_transform = get_transforms(config,is_train=True)

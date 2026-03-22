@@ -4,11 +4,11 @@ import kagglehub
 def check_datasset():
       path = kagglehub.dataset_download("alexattia/the-simpsons-characters-dataset")
       data_dir = Path(path) /"simpsons_dataset"
-      print(f"📂 Путь к данным: {data_dir}")
+      print(f"Путь к данным: {data_dir}")
     #   for item in data_dir.iterdir():
     #     print(f"   {item.name} {'(папка)' if item.is_dir() else '(файл)'}")
       if not data_dir.exists():
-        print("❌ Ошибка: Папка не найдена!")
+        print("Ошибка: Папка не найдена!")
         return
       exclude_names = {'simpsons_dataset', 'test', 'temp'}
       classes = [d.name for d in data_dir.iterdir() if d.is_dir() and d.name not in exclude_names]

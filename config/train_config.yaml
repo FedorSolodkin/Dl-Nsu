@@ -1,7 +1,8 @@
 # configs/train_config.yaml
 
 data:
-  data_dir: "C:/Users/Fedor/.cache/kagglehub/datasets/alexattia/the-simpsons-characters-dataset/versions/4/simpsons_dataset"
+  data_dir: "C:/Users/Fedor/.cache/kagglehub/datasets/alexattia/the-simpsons-characters-dataset/versions/4/"
+  test_dir: "C:/Users/Fedor/.cache/kagglehub/datasets/alexattia/the-simpsons-characters-dataset/versions/4/kaggle_simpson_testset"
   img_size: 224
   batch_size: 32
   num_workers: 10 
@@ -11,10 +12,11 @@ model:
   name: "resnet18"
   pretrained: true
   num_classes: 42 
+  freeze_backbone: false
 
 train:
-  epochs: 10
-  learning_rate: 0.001
+  epochs: 20
+  learning_rate: 0.0005
   weight_decay: 0.0001
   device: "cuda"
   seed: 42
