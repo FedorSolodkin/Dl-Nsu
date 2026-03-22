@@ -40,8 +40,8 @@ def get_transforms(config: Dict[str, Any], is_train: bool = True):
     img_size = config["data"]["img_size"]
     
     normalize = transforms.Normalize(
-        mean=[0.485,0.456,0.406],
-        std = [0.229,0.224,0.225]
+        mean=[0.336, 0.526, 0.590],
+        std = [0.324, 0.298, 0.212]
     )
     
     if is_train:
@@ -105,29 +105,6 @@ class KaggleTestDataset(Dataset):
     def num_classes(self) -> int:
         return len(self.classes)
     
-def get_transforms(config: Dict[str, Any], is_train: bool = True):
-    img_size = config["data"]["img_size"]
-    
-    normalize = transforms.Normalize(
-            mean=[0.5, 0.5, 0.5], 
-            std=[0.5, 0.5, 0.5]
-    )
-    
-    if is_train:
-        return transforms.Compose([
-            transforms.Resize((img_size,img_size)),
-            transforms.RandomHorizontalFlip(p=0.5),
-            transforms.RandomRotation(10),
-            transforms.ColorJitter(brightness=0.2, contrast=0.2),
-            transforms.ToTensor(),
-            normalize,
-        ])
-    else:
-        return transforms.Compose([
-            transforms.Resize((img_size,img_size)),
-            transforms.ToTensor(),
-            normalize,
-        ])
 
 
 def get_dataloaders(config:Dict[str,Any])-> Tuple[DataLoader,DataLoader,int]:
